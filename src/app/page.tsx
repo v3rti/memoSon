@@ -97,7 +97,7 @@ export default function Home() {
           setRestart(!restart);
           setGameStart(false);
         }}>Restart</div>
-        <div className="px-5 py-2 bg-[#8C9BA5] rounded-3xl">Players: 1</div>
+        <div className="px-5 py-2 bg-[#8C9BA5] rounded-3xl">Players: 4</div>
       </div>
       <div className="flex gap-4 flex-wrap">
         {cards && cards.map((card, i) => <Card onClick={() => {
