@@ -34,7 +34,7 @@ export default function Home() {
       return {id: id, num: num, checked: false, revealed: false}
     }));
 
-    setPlayers([{id: 1, score: 0}, {id: 2, score: 0}, {id: 3, score: 0}, {id: 4, score: 0}]);
+    setPlayers([{id: 1, score: 0}, {id: 2, score: 0}]);
     setTurn(1);
   }, [restart])
 
