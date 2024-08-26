@@ -13,9 +13,9 @@ export default function Home() {
   const [waiting, setWaiting] = useState(false);
   const [restart, setRestart] = useState(false);
   const [gameStart, setGameStart] = useState(false);
-  const [players, setPlayers] = useState([{id: 1, score: 0}, {id: 2, score: 0}, {id: 3, score: 0}, {id: 4, score: 0}]);
+  const [players, setPlayers] = useState([{id: 1, score: 0}, {id: 2, score: 0}]);
   const [turn, setTurn] = useState(1);
-  const [maxPlayers, setMaxPlayers] = useState(4)
+  const [maxPlayers, setMaxPlayers] = useState(2)
 
   const numbers = [1,2,3,5,6,7,8,9,10];
   let newNumbers = [...numbers, ...numbers].sort();
@@ -34,6 +34,8 @@ export default function Home() {
       return {id: id, num: num, checked: false, revealed: false}
     }));
 
+    setPlayers([{id: 1, score: 0}, {id: 2, score: 0}, {id: 3, score: 0}, {id: 4, score: 0}]);
+    setTurn(1);
   }, [restart])
 
   const revealCard = (i: number) => {
@@ -77,7 +79,6 @@ export default function Home() {
           setTurn(turn);
         }else{
           turn === maxPlayers ? setTurn(1) : setTurn(turn + 1);
-
         }
 
         console.log(players);
@@ -97,7 +98,7 @@ export default function Home() {
           setRestart(!restart);
           setGameStart(false);
         }}>Restart</div>
-        <div className="px-5 py-2 bg-[#8C9BA5] rounded-3xl">Players: 4</div>
+        <div className="px-5 py-2 bg-[#8C9BA5] rounded-3xl">Players: 2</div>
       </div>
       <div className="flex gap-4 flex-wrap">
         {cards && cards.map((card, i) => <Card onClick={() => {
@@ -111,6 +112,17 @@ export default function Home() {
         </div>
         <div className='flex bg-black w-fit px-3 py-2 rounded-xl gap-6'>
           Score: 0
+        </div>
+      </div>
+      <div>
+        <div className='flex gap-4'>
+          {players && players.map(player => {
+            return <div key={player.id} className={`${turn === player.id ? "bg-green-700" : "bg-black"} h-[120px] w-[120px]  text-white text-xl font-bold text-center py-4 rounded-2xl`}>
+              <p>Player {player.id}</p>
+              <p className='mt-3 text-3xl'>{player.score}</p>
+            </div>
+          }
+          )}
         </div>
       </div>
    </div>
