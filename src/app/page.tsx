@@ -16,6 +16,9 @@ export default function Home() {
   const [players, setPlayers] = useState([{id: 1, score: 0}, {id: 2, score: 0}]);
   const [turn, setTurn] = useState(1);
   const [maxPlayers, setMaxPlayers] = useState(2)
+  const [mode, setMode] = useState("classic");
+  const [moves, setMoves] = useState(0);
+  const [gameWon, setGameWon] = useState(0);
 
   const numbers = [1,2,3,5,6,7,8,9,10];
   let newNumbers = [...numbers, ...numbers].sort();
@@ -36,6 +39,8 @@ export default function Home() {
 
     setPlayers([{id: 1, score: 0}, {id: 2, score: 0}]);
     setTurn(1);
+    setMoves(0);
+    setGameWon(0);
   }, [restart])
 
   const revealCard = (i: number) => {
@@ -53,6 +58,7 @@ export default function Home() {
     console.log(`current player: ${turn}`)
 
     if(tempClicks === 2){
+      setMoves(moves + 1);
       setWaiting(true);
       setTimeout(() => {
         const prevRevealed = cardsCopy.filter(card => card.revealed);
@@ -77,6 +83,7 @@ export default function Home() {
           })
           setPlayers(playersTemp);
           setTurn(turn);
+          cards.filter(card => card.revealed).length === newNumbers.length && setGameWon(1);
         }else{
           turn === maxPlayers ? setTurn(1) : setTurn(turn + 1);
         }
@@ -86,14 +93,14 @@ export default function Home() {
         setTwoClicks(0);
         setCards(cardsCopy);
         setWaiting(false);
-      }, 1500);
+      }, 1000);
     }
-    setCards(cardsCopy);
   }
 
   return (
-   <div className="flex p-16 flex-col gap-6 h-screen items-center justify-center w-[810px] mx-auto">
-      <div className={`${inter.className} text-xl text-white font-medium justify-end flex gap-4 w-full`}>
+   <div className="relative mt-6 flex p-16 flex-col gap-6 h-screen items-center justify-center w-[380px] md:w-[1000px] 2xl:w-[810px] mx-auto">
+      <div className={`${gameWon ? '' : 'hidden'} text-4xl bg-white p-6 rounded-2xl absolute border border-black`}>Player {players[0].score > players[1].score ? "1" : "2"} Won!</div>
+      <div className={`${inter.className} text-base sm:text-xl text-white font-medium flex justify-center md:justify-end gap-4 w-full mb-4`}>
         <div className={`${gameStart ? "block" : "hidden"}  px-5 py-2 text-black bg-white font-semibold rounded-3xl cursor-pointer`} onClick={() => {
           setRestart(!restart);
           setGameStart(false);
@@ -105,21 +112,21 @@ export default function Home() {
           revealCard(i);
         }} key={i} checked={card.checked} cardValue={card.num} />)}
       </div>
-      <div className='w-full mt-8 text-2xl text-white font-medium flex justify-between'>
-        <div className='flex bg-black w-fit px-3 py-2 rounded-xl gap-6'>
+      <div className='w-full mt-4 text-base sm:text-2xl text-white font-medium flex justify-between'>
+        <div className='flex bg-black w-fit px-4 py-2 rounded-xl gap-6'>
           <p>Time:</p>
           <p>00:00</p>
         </div>
-        <div className='flex bg-black w-fit px-3 py-2 rounded-xl gap-6'>
-          Score: 0
+        <div className='flex bg-black w-fit px-4 py-2 rounded-xl gap-6'>
+          Moves: {moves}
         </div>
       </div>
       <div>
         <div className='flex gap-4'>
           {players && players.map(player => {
-            return <div key={player.id} className={`${turn === player.id ? "bg-green-700" : "bg-black"} h-[120px] w-[120px]  text-white text-xl font-bold text-center py-4 rounded-2xl`}>
+            return <div key={player.id} className={`${turn === player.id ? "bg-green-700" : "bg-black"}  h-[80px] sm:h-[120px] w-[120px] text-white text-base sm:text-xl font-bold text-center py-2 sm:py-3 rounded-2xl`}>
               <p>Player {player.id}</p>
-              <p className='mt-3 text-3xl'>{player.score}</p>
+              <p className='mt-2 sm:mt-4 text-lg sm:text-3xl'>{player.score}</p>
             </div>
           }
           )}
