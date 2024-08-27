@@ -112,11 +112,7 @@ export default function Home() {
           revealCard(i);
         }} key={i} checked={card.checked} cardValue={card.num} />)}
       </div>
-      <div className='w-full mt-4 text-base sm:text-2xl text-white font-medium flex justify-between'>
-        <div className='flex bg-black w-fit px-4 py-2 rounded-xl gap-6'>
-          <p>Time:</p>
-          <p>00:00</p>
-        </div>
+      <div className='w-full mt-4 text-base sm:text-2xl text-white font-medium flex justify-end'>
         <div className='flex bg-black w-fit px-4 py-2 rounded-xl gap-6'>
           Moves: {moves}
         </div>
@@ -124,7 +120,7 @@ export default function Home() {
       <div>
         <div className='flex gap-4'>
           {players && players.map(player => {
-            return <div key={player.id} className={`${turn === player.id ? "bg-green-700" : "bg-black"}  h-[80px] sm:h-[120px] w-[120px] text-white text-base sm:text-xl font-bold text-center py-2 sm:py-3 rounded-2xl`}>
+            return <div key={player.id} className={`${turn === player.id ? "bg-green-700" : "bg-black"} h-[80px] sm:h-[120px] w-[120px] text-white text-base sm:text-xl font-bold text-center py-2 sm:py-3 rounded-2xl`}>
               <p>Player {player.id}</p>
               <p className='mt-2 sm:mt-4 text-lg sm:text-3xl'>{player.score}</p>
             </div>
